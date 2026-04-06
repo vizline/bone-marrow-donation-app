@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const crypto = require('crypto');
+const path = require('path');
 const Anthropic = require('@anthropic-ai/sdk');
 const { pool, testDatabaseConnection } = require('./db');
 const { calculateProfile } = require('./scoring');
@@ -17,7 +18,11 @@ const anthropicModel = process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-5';
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 function getDirectionLabel(value) {
   return Number(value) >= 0 ? 'wysoki' : 'niski';
