@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1200" />
+    <title>Badanie dawstwa szpiku</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section id="screen-consent" class="card screen is-active">
+        <p class="eyebrow">Badanie naukowe</p>
+        <h1>Informacja o badaniu</h1>
+        <div class="content-block">
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          </p>
+          <p>
+            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+            nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+            officia deserunt mollit anim id est laborum.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            incididunt ut labore et dolore magna aliqua.
+          </p>
+        </div>
+
+        <div class="actions">
+          <button id="start-button" class="primary-button" type="button">
+            Rozpocznij badanie
+          </button>
+        </div>
+
+        <p id="status" class="status-message" aria-live="polite"></p>
+      </section>
+
+      <section id="screen-demographics" class="card screen">
+        <p class="eyebrow">Ekran 2</p>
+        <h1>Dane podstawowe</h1>
+
+        <form id="demographics-form" class="form-grid">
+          <label class="field">
+            <span>Podaj swój wiek (pełne lata):</span>
+            <input id="age" name="age" type="number" min="18" max="55" required />
+          </label>
+
+          <fieldset class="field">
+            <legend>Wskaż swoją płeć:</legend>
+            <label class="choice"><input type="radio" name="gender" value="Kobieta" required /> Kobieta</label>
+            <label class="choice"><input type="radio" name="gender" value="Mężczyzna" required /> Mężczyzna</label>
+          </fieldset>
+
+          <fieldset class="field">
+            <legend>
+              Czy jesteś zarejestrowany/zarejestrowana jako potencjalny dawca szpiku kostnego?
+            </legend>
+            <label class="choice">
+              <input type="radio" name="donorStatus" value="Tak, jestem zarejestrowany/a" required />
+              Tak, jestem zarejestrowany/a
+            </label>
+            <label class="choice">
+              <input type="radio" name="donorStatus" value="Nie jestem zarejestrowany/a" required />
+              Nie jestem zarejestrowany/a
+            </label>
+            <label class="choice">
+              <input type="radio" name="donorStatus" value="Nie wiem / nie pamiętam" required />
+              Nie wiem / nie pamiętam
+            </label>
+          </fieldset>
+
+          <div class="actions">
+            <button id="demographics-button" class="primary-button" type="submit">Dalej</button>
+          </div>
+        </form>
+
+        <p id="demographics-status" class="status-message" aria-live="polite"></p>
+      </section>
+
+      <section id="screen-exit" class="card screen">
+        <p class="eyebrow">Informacja</p>
+        <h1>Dziękujemy</h1>
+        <div class="content-block">
+          <p id="exit-message"></p>
+        </div>
+      </section>
+
+      <section id="screen-questionnaire" class="card screen questionnaire-screen">
+        <div class="questionnaire-top">
+          <div>
+            <p class="eyebrow">Ekran 3</p>
+            <h1>Kwestionariusz IPIP-BFM-20</h1>
+          </div>
+          <div class="progress-copy">
+            <span id="question-counter">Pytanie 1 z 20</span>
+          </div>
+        </div>
+
+        <div class="progress-bar">
+          <div id="progress-bar-fill" class="progress-bar-fill"></div>
+        </div>
+
+        <div class="content-block compact">
+          <p>
+            Oceń, na ile każde stwierdzenie opisuje Ciebie. Na ekranie widzisz zawsze jedno
+            pytanie.
+          </p>
+        </div>
+
+        <article class="question-card">
+          <p id="question-text" class="question-text"></p>
+
+          <div id="scale-options" class="scale-options" role="radiogroup" aria-label="Skala odpowiedzi">
+            <button type="button" class="scale-option" data-value="1">
+              Całkowicie nietrafnie mnie opisuje
+            </button>
+            <button type="button" class="scale-option" data-value="2">
+              Raczej nietrafnie mnie opisuje
+            </button>
+            <button type="button" class="scale-option" data-value="3">
+              Trochę trafnie, a trochę nietrafnie mnie opisuje
+            </button>
+            <button type="button" class="scale-option" data-value="4">
+              Raczej trafnie mnie opisuje
+            </button>
+            <button type="button" class="scale-option" data-value="5">
+              Całkowicie trafnie mnie opisuje
+            </button>
+          </div>
+        </article>
+
+        <div class="actions questionnaire-actions">
+          <button id="question-prev-button" class="secondary-button" type="button">Wstecz</button>
+        </div>
+
+        <p id="questionnaire-status" class="status-message" aria-live="polite"></p>
+      </section>
+
+      <section id="screen-profile-preview" class="card screen">
+        <p class="eyebrow">Ekran Testowy</p>
+        <h1>Podgląd profilu osobowości</h1>
+
+        <div class="content-block compact">
+          <p>
+            Ten ekran jest tymczasowy i służy do sprawdzenia, czy odpowiedzi z kwestionariusza są
+            poprawnie przeliczane na profil osobowości.
+          </p>
+        </div>
+
+        <div class="profile-grid">
+          <section class="profile-panel">
+            <h2>Wartości z dla cech</h2>
+            <div id="profile-z-values" class="metric-list"></div>
+          </section>
+
+          <section class="profile-panel">
+            <h2>Interpretacja Claude AI</h2>
+
+            <div class="analysis-block">
+              <h3>Jak całościowo można opisać tę osobę</h3>
+              <p id="profile-overview" class="profile-paragraph"></p>
+            </div>
+
+            <div class="analysis-block">
+              <h3>Jak do niej mówić o dawstwie szpiku</h3>
+              <p id="profile-guidance" class="profile-paragraph"></p>
+            </div>
+          </section>
+        </div>
+
+        <div class="actions">
+          <button id="profile-continue-button" class="primary-button" type="button">
+            Przejdź dalej do czatu
+          </button>
+        </div>
+      </section>
+
+      <section id="screen-chat" class="card screen chat-screen">
+        <div class="questionnaire-top">
+          <div>
+            <p class="eyebrow">Ekran 4</p>
+            <h1>Rozmowa z asystentem AI</h1>
+          </div>
+          <div class="progress-copy">
+            <span id="chat-counter">Wymiana 1 z 5</span>
+          </div>
+        </div>
+
+        <section class="chat-panel">
+          <div id="chat-messages" class="chat-messages"></div>
+          <p id="chat-status" class="status-message chat-status" aria-live="polite"></p>
+
+          <div class="chat-composer">
+            <textarea
+              id="chat-input"
+              class="chat-input"
+              rows="3"
+              placeholder="Napisz swoją odpowiedź..."
+            ></textarea>
+            <div class="actions chat-actions">
+              <button id="chat-send-button" class="primary-button" type="button">Wyślij</button>
+            </div>
+          </div>
+
+          <p id="chat-rationale" class="chat-rationale">
+            Robocze uzasadnienie pytania będzie pojawiać się tutaj.
+          </p>
+        </section>
+
+        <div id="chat-finish-actions" class="actions chat-finish-actions hidden">
+          <button id="chat-finish-button" class="primary-button" type="button">Dalej</button>
+        </div>
+      </section>
+
+      <section id="screen-registration-choice" class="card screen">
+        <p class="eyebrow">Ekran 5</p>
+        <h1>Możliwość rejestracji na SWPS</h1>
+
+        <div class="content-block">
+          <p>
+            Na terenie Uniwersytetu SWPS będzie możliwość oddania wymazu i rozpoczęcia rejestracji
+            jako potencjalny dawca szpiku kostnego w uzgodnionych później dogodnych terminach.
+          </p>
+          <p>
+            Będą dostępne zarówno terminy w tygodniu, jak i w czasie weekendów zjazdowych.
+            Organizacja akcji odbywa się przez wydziałowy AZS w porozumieniu z Fundacją DKMS.
+          </p>
+          <p>
+            Zaznacz proszę, która z poniższych opcji jest Ci bliższa na ten moment.
+          </p>
+        </div>
+
+        <div class="choice-card-list">
+          <button id="choice-no-button" class="decision-card" type="button">
+            Nie chcę umawiać terminu rejestracji jako dawca i zakończyć badanie
+          </button>
+
+          <button id="choice-yes-button" class="decision-card" type="button">
+            Chcę umówić się na dogodny termin rejestracji jako dawca w Fundacji DKMS
+          </button>
+        </div>
+
+        <p id="registration-choice-status" class="status-message" aria-live="polite"></p>
+      </section>
+
+      <section id="debug-panel" class="debug-panel hidden">
+        <strong>Debug</strong>
+        <p id="debug-message"></p>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+  </html>
