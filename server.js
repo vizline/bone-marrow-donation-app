@@ -205,6 +205,34 @@ function parseJsonFromText(text) {
   }
 }
 
+function extractJsonStringValueByBoundary(rawText, key, nextKeys = []) {
+  const keyPattern = new RegExp(`"${key}"\\s*:\\s*"`, 'i');
+  const keyMatch = keyPattern.exec(rawText);
+
+  if (!keyMatch) {
+    return null;
+  }
+
+  const valueStartIndex = keyMatch.index + keyMatch[0].length;
+
+  if (nextKeys.length === 0) {
+    return null;
+  }
+
+  const boundaryPattern = new RegExp(
+    `"\\s*,\\s*"(?:${nextKeys.map((nextKey) => nextKey.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})"\\s*:|\"\\s*}$`,
+    'i'
+  );
+  const rest = rawText.slice(valueStartIndex);
+  const boundaryMatch = boundaryPattern.exec(rest);
+
+  if (!boundaryMatch) {
+    return null;
+  }
+
+  return rest.slice(0, boundaryMatch.index);
+}
+
 function extractJsonStringValue(rawText, key) {
   const keyIndex = rawText.indexOf(`"${key}"`);
 
@@ -254,8 +282,10 @@ function extractJsonStringValue(rawText, key) {
 function parseExpectedFieldsFromMalformedJson(rawText, keys) {
   const result = {};
 
-  keys.forEach((key) => {
-    const extracted = extractJsonStringValue(rawText, key);
+  keys.forEach((key, index) => {
+    const extracted =
+      extractJsonStringValueByBoundary(rawText, key, keys.slice(index + 1)) ||
+      extractJsonStringValue(rawText, key);
 
     if (extracted !== null) {
       result[key] = extracted;
