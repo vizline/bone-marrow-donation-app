@@ -357,7 +357,16 @@ async function generateChatTurn(systemPrompt, messages) {
       'rationale',
     ]);
 
-    if (!parsed.assistantMessage || !parsed.rationale) {
+    if (!parsed.assistantMessage) {
+      parsed.assistantMessage = responseText.trim();
+    }
+
+    if (!parsed.rationale) {
+      parsed.rationale =
+        'Model zwrócił odpowiedź poza oczekiwanym JSON-em, więc zapisuję pełną treść jako wypowiedź do badanego.';
+    }
+
+    if (!parsed.assistantMessage) {
       throw error;
     }
   }
